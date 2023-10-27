@@ -1,4 +1,8 @@
 import { DuckWrapper } from "./duckWrapper";
 
-const duckWrapper = new DuckWrapper;
-duckWrapper.run(3);
+export class Main {
+    run(): void {
+        const duckWrapper = new DuckWrapper;
+        duckWrapper.run(3);
+    }
+}
