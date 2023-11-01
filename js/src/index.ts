@@ -6,6 +6,7 @@ References:
 import { Main as Strategy } from "./strategy_pattern";
 import { Main as Observer } from "./observer_pattern";
 import { Main as Decorator } from "./decorator_pattern";
+import { Main as Factory } from "./factory_pattern";
 
 console.log("Strategy Pattern");
 new Strategy().run();
@@ -17,4 +18,8 @@ console.log("\n");
 
 console.log("Decorator Pattern");
 new Decorator().run();
+console.log("\n");
+
+console.log("Factory Pattern");
+new Factory().run();
 console.log("\n");
