@@ -1,11 +1,15 @@
 package main
 
 import (
-	"lld/tictactoe"
+	// tictactoe "lld/tictactoe"
+	lrucache "lld/lru_cache"
 )
 
 func main() {
 
 	// tic tac toe demo
-	tictactoe.TicTacToeDemo()
+	// tictactoe.TicTacToeDemo()
+
+	// lru cache demo
+	lrucache.LruDemo()
 }
