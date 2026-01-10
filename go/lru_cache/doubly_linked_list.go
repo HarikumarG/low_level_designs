@@ -2,15 +2,15 @@ package lrucache
 
 import "fmt"
 
-type node struct {
-	data int16
-	next *node
-	prev *node
-	key  int16
+type node[K comparable, V any] struct {
+	data V
+	next *node[K, V]
+	prev *node[K, V]
+	key  K
 }
 
-func newNode(data int16, key int16) *node {
-	return &node{
+func newNode[K comparable, V any](data V, key K) *node[K, V] {
+	return &node[K, V]{
 		data: data,
 		next: nil,
 		prev: nil,
@@ -18,17 +18,17 @@ func newNode(data int16, key int16) *node {
 	}
 }
 
-type DllNode struct {
-	head *node
-	tail *node
+type DllNode[K comparable, V any] struct {
+	head *node[K, V]
+	tail *node[K, V]
 }
 
-func NewDlNode() *DllNode {
-	return &DllNode{}
+func NewDlNode[K comparable, V any]() *DllNode[K, V] {
+	return &DllNode[K, V]{}
 }
 
-func (dlNode *DllNode) InsertAtHead(key int16, data int16) *node {
-	newNode := newNode(data, key)
+func (dlNode *DllNode[K, V]) InsertAtHead(key K, data V) *node[K, V] {
+	var newNode *node[K, V] = newNode(data, key)
 
 	if dlNode.head == nil {
 		dlNode.head = newNode
@@ -43,7 +43,7 @@ func (dlNode *DllNode) InsertAtHead(key int16, data int16) *node {
 	return newNode
 }
 
-func (dlNode *DllNode) RemoveNode(node *node) bool {
+func (dlNode *DllNode[K, V]) RemoveNode(node *node[K, V]) bool {
 	if node == nil {
 		return false
 	}
@@ -70,7 +70,7 @@ func (dlNode *DllNode) RemoveNode(node *node) bool {
 	return true
 }
 
-func (dlNode *DllNode) Print() {
+func (dlNode *DllNode[K, V]) Print() {
 	fmt.Println("Printing list: ")
 	curr := dlNode.head
 	for curr != nil {

@@ -2,23 +2,23 @@ package lrucache
 
 import "fmt"
 
-type LRUCache struct {
-	cache       map[int16]*node
-	dllNode     *DllNode
+type LRUCache[K comparable, V any] struct {
+	cache       map[K]*node[K, V]
+	dllNode     *DllNode[K, V]
 	capacity    int16
 	currentSize int16
 }
 
-func NewLRUCache(capacity int16) *LRUCache {
-	return &LRUCache{
-		cache:       map[int16]*node{},
-		dllNode:     NewDlNode(),
+func NewLRUCache[K comparable, V any](capacity int16) *LRUCache[K, V] {
+	return &LRUCache[K, V]{
+		cache:       map[K]*node[K, V]{},
+		dllNode:     NewDlNode[K, V](),
 		capacity:    capacity,
 		currentSize: 0,
 	}
 }
 
-func (l *LRUCache) Put(k int16, v int16) {
+func (l *LRUCache[K, V]) Put(k K, v V) {
 	if l.canInsert() {
 		l.insert(k, v)
 		l.currentSize++
@@ -28,33 +28,34 @@ func (l *LRUCache) Put(k int16, v int16) {
 	}
 }
 
-func (l *LRUCache) Get(k int16) int16 {
+func (l *LRUCache[K, V]) Get(k K) V {
 	fetchNode := l.cache[k]
 	if fetchNode == nil {
-		return -1
+		var z V
+		return z
 	}
 	l.remove(k, fetchNode)
 	l.insert(k, fetchNode.data)
 	return fetchNode.data
 }
 
-func (l *LRUCache) canInsert() bool {
+func (l *LRUCache[K, V]) canInsert() bool {
 	return l.currentSize < l.capacity
 }
 
-func (l *LRUCache) insert(k, v int16) {
+func (l *LRUCache[K, V]) insert(k K, v V) {
 	l.cache[k] = l.dllNode.InsertAtHead(k, v)
 }
 
-func (l *LRUCache) remove(k int16, node *node) {
+func (l *LRUCache[K, V]) remove(k K, node *node[K, V]) {
 	if node != nil {
 		l.dllNode.RemoveNode(node)
 		delete(l.cache, k)
 	}
 }
 
-func (l *LRUCache) Print() {
-	cacheKeys := make([]int16, 0, len(l.cache))
+func (l *LRUCache[K, V]) Print() {
+	cacheKeys := make([]K, 0, len(l.cache))
 	for k := range l.cache {
 		cacheKeys = append(cacheKeys, k)
 	}
