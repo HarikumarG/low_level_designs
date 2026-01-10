@@ -1,12 +1,16 @@
 package lrucache
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type LRUCache[K comparable, V any] struct {
 	cache       map[K]*node[K, V]
 	dllNode     *DllNode[K, V]
 	capacity    int16
 	currentSize int16
+	mu          sync.Mutex
 }
 
 func NewLRUCache[K comparable, V any](capacity int16) *LRUCache[K, V] {
@@ -19,6 +23,8 @@ func NewLRUCache[K comparable, V any](capacity int16) *LRUCache[K, V] {
 }
 
 func (l *LRUCache[K, V]) Put(k K, v V) {
+	l.mu.Lock()
+	defer l.mu.Unlock()
 	if l.canInsert() {
 		l.insert(k, v)
 		l.currentSize++
@@ -29,6 +35,8 @@ func (l *LRUCache[K, V]) Put(k K, v V) {
 }
 
 func (l *LRUCache[K, V]) Get(k K) V {
+	l.mu.Lock()
+	defer l.mu.Unlock()
 	fetchNode := l.cache[k]
 	if fetchNode == nil {
 		var z V
