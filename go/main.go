@@ -1,9 +1,11 @@
 package main
 
 import (
-	// tictactoe "lld/tictactoe"
-	lrucache "lld/lru_cache"
+	"lld/parkinglot"
 )
+
+// tictactoe "lld/tictactoe"
+// lrucache "lld/lru_cache"
 
 func main() {
 
@@ -11,5 +13,8 @@ func main() {
 	// tictactoe.TicTacToeDemo()
 
 	// lru cache demo
-	lrucache.LruDemo()
+	// lrucache.LruDemo()
+
+	// parking lot demo
+	parkinglot.ParkingLotDemo()
 }
