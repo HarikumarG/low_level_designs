@@ -1,8 +1,6 @@
 package main
 
-import (
-	"lld/parkinglot"
-)
+import taskmanagement "lld/task_management"
 
 // tictactoe "lld/tictactoe"
 // lrucache "lld/lru_cache"
@@ -16,5 +14,8 @@ func main() {
 	// lrucache.LruDemo()
 
 	// parking lot demo
-	parkinglot.ParkingLotDemo()
+	// parkinglot.ParkingLotDemo()
+
+	// task management demo
+	taskmanagement.TaskManagementDemo()
 }

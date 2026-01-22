@@ -20,13 +20,14 @@ const (
 )
 
 type Task struct {
-	id           int64
-	title        string
-	description  string
-	dueDate      time.Time
-	priority     TaskPriority
-	status       TaskStatus
-	assignedUser *User
+	Id           int64        `json:"id"`
+	Title        string       `json:"title"`
+	Description  string       `json:"description"`
+	DueDate      time.Time    `json:"dueDate"`
+	Priority     TaskPriority `json:"priority"`
+	Status       TaskStatus   `json:"status"`
+	AssignedUser *User        `json:"assignedUser"`
+	Reminder     *time.Time   `json:"reminder"`
 }
 
 var autoIncrementTaskId int64 = 0
@@ -34,64 +35,68 @@ var autoIncrementTaskId int64 = 0
 func NewTask(title string, description string, dueDate time.Time, priority TaskPriority, user *User) *Task {
 	autoIncrementTaskId++
 	return &Task{
-		id:           autoIncrementTaskId,
-		title:        title,
-		description:  description,
-		dueDate:      dueDate,
-		priority:     priority,
-		status:       IN_PROGRESS,
-		assignedUser: user,
+		Id:           autoIncrementTaskId,
+		Title:        title,
+		Description:  description,
+		DueDate:      dueDate,
+		Priority:     priority,
+		Status:       PENDING,
+		AssignedUser: user,
 	}
 }
 
 func (t *Task) GetId() int64 {
-	return t.id
+	return t.Id
 }
 
 func (t *Task) GetTitle() string {
-	return t.title
+	return t.Title
 }
 
 func (t *Task) GetDescription() string {
-	return t.description
+	return t.Description
 }
 
 func (t *Task) GetDueDate() time.Time {
-	return t.dueDate
+	return t.DueDate
 }
 
 func (t *Task) GetPriority() TaskPriority {
-	return t.priority
+	return t.Priority
 }
 
 func (t *Task) GetStatus() TaskStatus {
-	return t.status
+	return t.Status
 }
 
 func (t *Task) GetAssignedUser() *User {
-	return t.assignedUser
+	return t.AssignedUser
 }
 
 func (t *Task) SetTitle(title string) {
-	t.title = title
+	t.Title = title
 }
 
 func (t *Task) SetDescription(desc string) {
-	t.description = desc
+	t.Description = desc
 }
 
 func (t *Task) SetDueDate(date time.Time) {
-	t.dueDate = date
+	t.DueDate = date
 }
 
 func (t *Task) SetPriority(p TaskPriority) {
-	t.priority = p
+	t.Priority = p
 }
 
 func (t *Task) SetStatus(status TaskStatus) {
-	t.status = status
+	t.Status = status
 }
 
 func (t *Task) SetAssignedUser(user *User) {
-	t.assignedUser = user
+	t.AssignedUser = user
+}
+
+func (t *Task) SetReminder(date *time.Time) {
+	t.Reminder = date
 }

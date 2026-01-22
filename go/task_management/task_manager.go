@@ -81,7 +81,8 @@ func (taskManager *TaskManager) UpdateTask(taskId int64, title string, desc stri
 	}
 
 	if user != task.GetAssignedUser() {
-		task.SetAssignedUser(user)
+		taskManager.unassignTaskToUser(task)
+		taskManager.assignTaskToUser(task, user)
 	}
 
 	return nil
@@ -142,6 +143,18 @@ func (taskManager *TaskManager) GetTaskHistory(userId int64) ([]*Task, error) {
 		tasks = append(tasks, taskManager.tasks[taskId])
 	}
 	return tasks, nil
+}
+
+func (taskManager *TaskManager) SetReminder(taskId int64, date *time.Time) error {
+	if date != nil && date.Before(time.Now()) {
+		return errors.New("Invalid date")
+	}
+	var task *Task = taskManager.tasks[taskId]
+	if task == nil {
+		return errors.New("Invalid Task Id")
+	}
+	task.SetReminder(date)
+	return nil
 }
 
 func (taskManager *TaskManager) unassignTaskToUser(task *Task) {
